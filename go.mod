@@ -1,4 +1,4 @@
-module github.com/gco/gopyre
+module github.com/cjg/gopyre
 
 go 1.24.6
 
