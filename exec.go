@@ -41,6 +41,11 @@ func Exec(code string, input map[string]any) (any, error) {
 		return nil, err
 	}
 	rt.decRef(inputObj)
+	if len(input) > 0 {
+		if _, err := rt.runString("globals().update(input)", pyFileInput, globals, globals); err != nil {
+			return nil, err
+		}
+	}
 
 	execPart, evalPart := splitForEval(code)
 	if execPart != "" {

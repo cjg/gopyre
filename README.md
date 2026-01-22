@@ -84,8 +84,6 @@ import (
 
 func main() {
     result, err := gopyre.Exec(`
-x = input["x"]
-y = input["y"]
 x + y
 `, map[string]any{
         "x": 2,
@@ -102,7 +100,8 @@ x + y
 ## Data Exchange Model
 
 - Input variables are provided as `map[string]any`
-- Available in Python as `input`
+- Each input key becomes a global variable
+- Also available in Python as `input`
 - The last expression is returned
 
 | Python | Go |
