@@ -27,3 +27,8 @@ func TestArgumentsPassing(t *testing.T) {
 	require.True(t, ok)
 	require.Equal(t, 3.0, resultFloat)
 }
+
+func TestAssignment(t *testing.T) {
+	_, err := Exec(`x = 1`, nil)
+	require.NoError(t, err)
+}
