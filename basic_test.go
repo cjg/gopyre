@@ -13,7 +13,7 @@ func TestOpenLibPython(t *testing.T) {
 }
 
 func TestBasicExec(t *testing.T) {
-	result, err := Exec(`1`, nil)
+	result, err := Exec(`"1"`, nil)
 	require.NoError(t, err)
 	resultString, ok := result.(string)
 	require.True(t, ok)
