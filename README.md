@@ -106,7 +106,7 @@ x + y
 - The last expression is returned
 
 | Python | Go |
-|------|----|
+| --- | --- |
 | `None` | `nil` |
 | `dict` | `map[string]any` |
 | `list` | `[]any` |
