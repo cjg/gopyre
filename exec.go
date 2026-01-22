@@ -63,8 +63,15 @@ func Exec(code string, input map[string]any) (any, error) {
 		}
 	}
 
-	result, err := rt.runString(evalPart, pyEvalInput, globals, globals)
+	// retrying in pyFileInput mode if last line is not an expression, in this case we return a nil value
+	mode := pyEvalInput
+RetryWithoutEval:
+	result, err := rt.runString(evalPart, mode, globals, globals)
 	if err != nil {
+		if mode == pyEvalInput {
+			mode = pyFileInput
+			goto RetryWithoutEval
+		}
 		return nil, err
 	}
 
