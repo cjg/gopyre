@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"runtime"
 	"strings"
 )
 
@@ -23,8 +24,16 @@ func Exec(code string, input map[string]any) (any, error) {
 		return nil, err
 	}
 
-	state := rt.fns.PyGILState_Ensure()
-	defer rt.fns.PyGILState_Release(state)
+	runtime.LockOSThread()
+	defer runtime.UnlockOSThread()
+
+	subThreadState := rt.fns.Py_NewInterpreter()
+	if subThreadState == nil {
+		return nil, rt.fetchError("create subinterpreter")
+	}
+	defer func() {
+		rt.fns.Py_EndInterpreter(subThreadState)
+	}()
 
 	globals, err := rt.newGlobals()
 	if err != nil {

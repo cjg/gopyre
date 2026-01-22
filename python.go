@@ -20,6 +20,8 @@ type pyFns struct {
 	PyEval_InitThreads       func()
 	PyGILState_Ensure        func() uintptr
 	PyGILState_Release       func(state uintptr)
+	Py_NewInterpreter        func() unsafe.Pointer
+	Py_EndInterpreter        func(tstate unsafe.Pointer)
 	PyEval_GetBuiltins       func() unsafe.Pointer
 	PyDict_New               func() unsafe.Pointer
 	PyDict_SetItemString     func(dict unsafe.Pointer, key *byte, value unsafe.Pointer) int32
@@ -43,6 +45,8 @@ func (rt *pyRuntime) bind() {
 	purego.RegisterLibFunc(&rt.fns.PyEval_InitThreads, rt.lib, "PyEval_InitThreads")
 	purego.RegisterLibFunc(&rt.fns.PyGILState_Ensure, rt.lib, "PyGILState_Ensure")
 	purego.RegisterLibFunc(&rt.fns.PyGILState_Release, rt.lib, "PyGILState_Release")
+	purego.RegisterLibFunc(&rt.fns.Py_NewInterpreter, rt.lib, "Py_NewInterpreter")
+	purego.RegisterLibFunc(&rt.fns.Py_EndInterpreter, rt.lib, "Py_EndInterpreter")
 	purego.RegisterLibFunc(&rt.fns.PyEval_GetBuiltins, rt.lib, "PyEval_GetBuiltins")
 	purego.RegisterLibFunc(&rt.fns.PyDict_New, rt.lib, "PyDict_New")
 	purego.RegisterLibFunc(&rt.fns.PyDict_SetItemString, rt.lib, "PyDict_SetItemString")

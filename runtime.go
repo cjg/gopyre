@@ -41,7 +41,7 @@ func initRuntime() (*pyRuntime, error) {
 
 	if rt.fns.Py_IsInitialized() == 0 {
 		rt.fns.Py_Initialize()
-		rt.fns.PyEval_InitThreads()
+		// rt.fns.PyEval_InitThreads()
 	}
 
 	return rt, nil
