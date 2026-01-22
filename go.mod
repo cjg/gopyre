@@ -1,4 +1,4 @@
-module gihub.com/gco/gopyre
+module gihtub.com/gco/gopyre
 
 go 1.24.6
 
