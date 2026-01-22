@@ -79,7 +79,7 @@ import (
     "fmt"
     "log"
 
-    "github.com/<your-org>/gopyre"
+    "github.com/cjg/gopyre"
 )
 
 func main() {
