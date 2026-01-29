@@ -56,6 +56,16 @@ func Exec(code string, input map[string]any) (any, error) {
 		}
 	}
 
+	interp := rt.fns.PyThreadState_GetInterpreter(subThreadState)
+	ts := rt.fns.PyThreadState_New(interp)
+	previousThreadState := rt.fns.PyThreadState_Swap(ts)
+
+	defer func() {
+		rt.fns.PyThreadState_Clear(ts)
+		rt.fns.PyThreadState_DeleteCurrent()
+		rt.fns.PyThreadState_Swap(previousThreadState)
+	}()
+
 	execPart, evalPart := splitForEval(code)
 	if execPart != "" {
 		if _, err := rt.runString(execPart, pyFileInput, globals, globals); err != nil {

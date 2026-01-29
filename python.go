@@ -37,6 +37,12 @@ type pyFns struct {
 	PyErr_NormalizeException func(ptype, pvalue, ptrace *unsafe.Pointer)
 	PyObject_Str             func(obj unsafe.Pointer) unsafe.Pointer
 	Py_DecRef                func(obj unsafe.Pointer)
+
+	PyThreadState_New            func(unsafe.Pointer) unsafe.Pointer
+	PyThreadState_Swap           func(unsafe.Pointer) unsafe.Pointer
+	PyThreadState_Clear          func(unsafe.Pointer)
+	PyThreadState_GetInterpreter func(unsafe.Pointer) unsafe.Pointer
+	PyThreadState_DeleteCurrent  func()
 }
 
 func (rt *pyRuntime) bind() {
@@ -62,6 +68,12 @@ func (rt *pyRuntime) bind() {
 	purego.RegisterLibFunc(&rt.fns.PyErr_NormalizeException, rt.lib, "PyErr_NormalizeException")
 	purego.RegisterLibFunc(&rt.fns.PyObject_Str, rt.lib, "PyObject_Str")
 	purego.RegisterLibFunc(&rt.fns.Py_DecRef, rt.lib, "Py_DecRef")
+
+	purego.RegisterLibFunc(&rt.fns.PyThreadState_New, rt.lib, "PyThreadState_New")
+	purego.RegisterLibFunc(&rt.fns.PyThreadState_Swap, rt.lib, "PyThreadState_Swap")
+	purego.RegisterLibFunc(&rt.fns.PyThreadState_Clear, rt.lib, "PyThreadState_Clear")
+	purego.RegisterLibFunc(&rt.fns.PyThreadState_GetInterpreter, rt.lib, "PyThreadState_GetInterpreter")
+	purego.RegisterLibFunc(&rt.fns.PyThreadState_DeleteCurrent, rt.lib, "PyThreadState_DeleteCurrent")
 }
 
 func (rt *pyRuntime) newGlobals() (unsafe.Pointer, error) {
